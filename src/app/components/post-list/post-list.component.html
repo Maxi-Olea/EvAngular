@@ -1,12 +1,12 @@
+<div class="d-flex justify-content-center mt-3">
+  <h1>Listado de Posts</h1>
+</div>
+
 <div *ngIf="loading" class="d-flex justify-content-center mt-3">
   <app-spinner></app-spinner>
 </div>
 
-
 <div *ngIf="!loading" class="container">
-  <div class="d-flex justify-content-center mt-3">
-    <h1>Listado de Posts</h1>
-  </div>
   <div class="row mt-3">
     <div class="col-lg-8 offset-lg-2">
       <div class="card">
@@ -23,7 +23,7 @@
               <tr *ngFor="let post of posts">
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
-                <td><a [routerLink]="['/posts', post.id]">Ver</a></td>
+                <td><i [routerLink]="['/posts', post.id]" class="fas fa-eye"></i></td>
               </tr>
             </tbody>
           </table>

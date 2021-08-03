@@ -11,22 +11,20 @@ export class PostListComponent implements OnInit {
   loading = false
   posts:any[];
 
+
   constructor(
     private postService: PostsService
   ) { }
 
   ngOnInit(): void {
     this.loading = true
-    console.log(this.loading)
     this.getPosts()
   }
 
   getPosts() {
     this.postService.getPosts().subscribe(data => {
-      console.log('data - ',data)
       this.posts = data
       this.loading = false
-      console.log(this.loading)
     })
 
   }

@@ -1,20 +1,21 @@
+<!-- <div class="d-flex justify-content-center mt-3">
+  <h1>Detalle del post {{ id }}</h1>
+</div> -->
 <div *ngIf="loading" class="d-flex justify-content-center mt-3">
   <app-spinner></app-spinner>
 </div>
 
-<div *ngIf="!loading" class="container">
-  <div class="d-flex justify-content-center mt-3">
-    <h1>Detalle del post {{ id }}</h1>
-  </div>
+<div *ngIf="!loading" class="container mt-3">
   <div class="container">
     <div class="card">
-      <h2>Detalles</h2>
+      <div class="card-header">
+        <h1>Detalles del post Nro. {{ id }}</h1>
+      </div>
       <div class="card-body">
         <h3>{{ postDetails.title }}</h3>
         <p>{{ postDetails.body }}</p>
       </div>
     </div>
-
   </div>
   <div class="d-flex justify-content-center mt-3">
     <button [routerLink]="['/posts']" class="btn btn-dark btn-lg">Volver</button>
