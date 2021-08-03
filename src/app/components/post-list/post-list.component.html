@@ -1,7 +1,12 @@
-<div class="d-flex justify-content-center mt-3">
-  <h1>Listado de Posts</h1>
+<div *ngIf="loading" class="d-flex justify-content-center mt-3">
+  <app-spinner></app-spinner>
 </div>
-<div class="container">
+
+
+<div *ngIf="!loading" class="container">
+  <div class="d-flex justify-content-center mt-3">
+    <h1>Listado de Posts</h1>
+  </div>
   <div class="row mt-3">
     <div class="col-lg-8 offset-lg-2">
       <div class="card">

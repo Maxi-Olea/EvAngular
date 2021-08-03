@@ -8,6 +8,7 @@ import { PostsService } from 'src/app/services/posts.service';
 })
 export class PostListComponent implements OnInit {
 
+  loading = false
   posts:any[];
 
   constructor(
@@ -15,6 +16,8 @@ export class PostListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true
+    console.log(this.loading)
     this.getPosts()
   }
 
@@ -22,6 +25,8 @@ export class PostListComponent implements OnInit {
     this.postService.getPosts().subscribe(data => {
       console.log('data - ',data)
       this.posts = data
+      this.loading = false
+      console.log(this.loading)
     })
 
   }

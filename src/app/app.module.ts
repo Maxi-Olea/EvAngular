@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { PostListComponent } from './components/post-list/post-list.component';
 import { PostDetailsComponent } from './components/post-details/post-details.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PostListComponent,
     PostDetailsComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

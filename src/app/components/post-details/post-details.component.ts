@@ -13,6 +13,7 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
   id: any;
   posts: any[];
   postDetails: any;
+  loading = false
   private sub: any;
 
   constructor(
@@ -22,6 +23,7 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
     });
@@ -38,7 +40,7 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
       console.log('data - ',data)
       this.posts = data
       this.postDetails = this.getPostById(this.id)
-
+      this.loading = false
     })
   }
 
