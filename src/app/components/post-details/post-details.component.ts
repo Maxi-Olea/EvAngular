@@ -24,18 +24,31 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
-      this.posts = this.postService.posts
-      this.postDetails = this.getPostById(this.id)
     });
+    this.getposts()
+
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
+  getposts() {
+    this.postService.getPosts().subscribe(data => {
+      console.log('data - ',data)
+      this.posts = data
+      this.postDetails = this.getPostById(this.id)
+
+    })
+  }
+
   //Retorna el objeto del post en base al id
   getPostById(id) {
+    console.log('Id: ', id)
+    console.log('posts: ', this.posts)
     const post = this.posts.filter(post => post.id == id) [0] || {}
+    console.log(Object.keys(post).length)
+    console.log('post', post)
     if (Object.keys(post).length) {
       return post
     } else{

@@ -19,6 +19,10 @@ export class PostListComponent implements OnInit {
   }
 
   getPosts() {
-    this.posts = this.postService.posts
+    this.postService.getPosts().subscribe(data => {
+      console.log('data - ',data)
+      this.posts = data
+    })
+
   }
 }
