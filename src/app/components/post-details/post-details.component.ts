@@ -14,6 +14,7 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
   posts: any[];
   postDetails: any;
   loading = false
+  errorMsg: any
   private sub: any;
 
   constructor(
@@ -27,7 +28,7 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
     });
-    this.getposts()
+    this.getPostById(this.id)
 
   }
 
@@ -35,22 +36,18 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
-  getposts() {
-    this.postService.getPosts().subscribe(data => {
-      this.posts = data
-      this.postDetails = this.getPostById(this.id)
-      this.loading = false
-    })
-  }
-
   //Retorna el objeto del post en base al id
   getPostById(id) {
-    const post = this.posts.filter(post => post.id == id) [0] || {}
-    if (Object.keys(post).length) {
-      return post
-    } else{
+    this.postService.getPostById(id).subscribe(data => {
+      this.postDetails = data
+      this.loading = false
+    },
+    error => {
+      this.errorMsg = error
+      console.log(this.errorMsg)
       this.router.navigate(['/404'])
-    }
+    })
+
   }
 
 }

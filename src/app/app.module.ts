@@ -9,6 +9,7 @@ import { PostListComponent } from './components/post-list/post-list.component';
 import { PostDetailsComponent } from './components/post-details/post-details.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { CommentsComponent } from './components/comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     PostListComponent,
     PostDetailsComponent,
     NotFoundComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    CommentsComponent
   ],
   imports: [
     BrowserModule,
