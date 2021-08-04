@@ -13,8 +13,9 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
   id: any;
   posts: any[];
   postDetails: any;
-  loading = false
-  errorMsg: any
+  loading = false;
+  errorMsg: any;
+  time: number;
   private sub: any;
 
   constructor(
@@ -48,6 +49,10 @@ export class PostDetailsComponent implements OnInit, OnDestroy {
       this.router.navigate(['/404'])
     })
 
+  }
+
+  getTime(emitedTime: number) {
+    this.time = emitedTime
   }
 
 }

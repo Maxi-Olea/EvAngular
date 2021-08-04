@@ -19,6 +19,15 @@
             </tr>
           </tbody>
         </table>
+        <div>
+          <div class="d-flex justify-content-center">
+            <p>{{ dateTime | date:'short' }}</p>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button (click)="emitTime()" class="btn btn-dark">Emitir Hora</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>

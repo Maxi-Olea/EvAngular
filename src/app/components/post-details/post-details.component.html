@@ -10,6 +10,9 @@
     <div class="card">
       <div class="card-header">
         <h1>Detalles del post Nro. {{ id }}</h1>
+        <div *ngIf="time">
+          <span class="d-flex justify-content-end fw-bold">Hora emitida: {{ time | date:'short' }}</span>
+        </div>
       </div>
       <div class="card-body">
         <h3>{{ postDetails.title }}</h3>
@@ -18,7 +21,7 @@
     </div>
   </div>
   <div class="d-flex justify-content-center mt-3">
-    <app-comments [postId]="id"></app-comments>
+    <app-comments [postId]="id" (sendTime)="getTime($event)"></app-comments>
   </div>
   <div class="d-flex justify-content-center mt-3">
     <button [routerLink]="['/posts']" class="btn btn-dark btn-lg">Volver</button>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { PostsService } from 'src/app/services/posts.service';
 
@@ -15,6 +15,9 @@ export class CommentsComponent implements OnInit {
 
   @Input() postId: number;
 
+  @Output() sendTime: EventEmitter<number> = new EventEmitter<number>();
+
+  dateTime: number = Date.now();
 
   constructor(
     private postService : PostsService,
@@ -36,6 +39,10 @@ export class CommentsComponent implements OnInit {
       console.log(this.errorMsg)
       this.router.navigate(['/404'])
     })
+  }
+
+  emitTime() {
+    this.sendTime.emit(this.dateTime)
   }
 
 }
