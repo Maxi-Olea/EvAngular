@@ -21,41 +21,26 @@ export class PostsService {
 
   getPosts(): Observable<any> {
     return this.httpClient.get(this.urlPosts)
-    .pipe(catchError(error => {
-      if (error.error instanceof ErrorEvent) {
-          this.errorMsg = `Error: ${error.error.message}`;
-      } else {
-          this.errorMsg = `Error: ${error.message}`;
-      }
-      return throwError(this.errorMsg);
-    })
-    )
+    .pipe(catchError(error => this.handleError(error)))
   }
 
   getPostById(id): Observable<any> {
     return this.httpClient.get(`${this.urlPosts}/${id}`)
-      .pipe(catchError(error => {
-        if (error.error instanceof ErrorEvent) {
-            this.errorMsg = `Error: ${error.error.message}`;
-        } else {
-            this.errorMsg = `Error: ${error.message}`;
-        }
-        return throwError(this.errorMsg);
-      })
-      )
+    .pipe(catchError(error => this.handleError(error)))
   }
 
   getCommentsByPostId (postId): Observable<any> {
     return this.httpClient.get(`${this.urlComments}?postId=${postId}`)
-    .pipe(catchError(error => {
-      if (error.error instanceof ErrorEvent) {
-          this.errorMsg = `Error: ${error.error.message}`;
-      } else {
-          this.errorMsg = `Error: ${error.message}`;
-      }
-      return throwError(this.errorMsg);
-    })
-    )
+    .pipe(catchError(error => this.handleError(error)))
+  }
+
+  handleError(error) {
+    if (error.error instanceof ErrorEvent) {
+      this.errorMsg = `Error: ${error.error.message}`;
+  } else {
+      this.errorMsg = `Error: ${error.message}`;
+  }
+  return throwError(this.errorMsg);
   }
 
 }
