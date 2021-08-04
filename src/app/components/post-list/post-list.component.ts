@@ -10,9 +10,9 @@ import { PostsService } from 'src/app/services/posts.service';
 })
 export class PostListComponent implements OnInit {
 
-  loading = false
+  loading = false;
   posts:any[];
-  errorMsg
+  errorMsg;
 
 
   constructor(

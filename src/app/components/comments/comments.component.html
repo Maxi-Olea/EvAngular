@@ -1,0 +1,25 @@
+<div *ngIf="loading" class="d-flex justify-content-center mt-3">
+  <app-spinner></app-spinner>
+</div>
+
+<div *ngIf="!loading" class="mt-3">
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h6>Comentarios del Post {{ postId }}</h6>
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <tbody>
+            <tr *ngFor="let comment of comments">
+              <td>
+                <h6><span class="fw-bold">Nombre:</span> {{ comment.name }}</h6>
+                <p><span class="fw-bold">Comentario:</span> {{ comment.body }}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,8 @@ import { throwError } from 'rxjs';
 })
 export class PostsService {
 
-  urlPosts = 'https://jsonplaceholder.typicode.com/posts'
+  urlPosts = 'https://jsonplaceholder.typicode.com/posts';
+  urlComments = 'https://jsonplaceholder.typicode.com/comments';
 
   errorMsg
 
@@ -42,6 +43,19 @@ export class PostsService {
         return throwError(this.errorMsg);
       })
       )
+  }
+
+  getCommentsByPostId (postId): Observable<any> {
+    return this.httpClient.get(`${this.urlComments}?postId=${postId}`)
+    .pipe(catchError(error => {
+      if (error.error instanceof ErrorEvent) {
+          this.errorMsg = `Error: ${error.error.message}`;
+      } else {
+          this.errorMsg = `Error: ${error.message}`;
+      }
+      return throwError(this.errorMsg);
+    })
+    )
   }
 
 }
