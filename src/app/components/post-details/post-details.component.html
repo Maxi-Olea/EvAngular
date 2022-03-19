@@ -24,6 +24,9 @@
     <app-comments [postId]="id" (sendTime)="getTime($event)"></app-comments>
   </div>
   <div class="d-flex justify-content-center mt-3">
+    <app-add-comment [postId]="id"></app-add-comment>
+  </div>
+  <div class="d-flex justify-content-center mt-3">
     <button [routerLink]="['/posts']" class="btn btn-dark btn-lg">Volver</button>
   </div>
 </div>

@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h6>Nuevo Comentario Post {{ postId }}</h6>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="addCommentForm" (ngSubmit)="addComment()">
+                <div class="mb-3">
+                    <input type="text" formControlName="name" class="form-control" placeholder="Ingrese su nombre">
+                    <span class="text-danger" *ngIf="addCommentForm.get('name')?.touched && addCommentForm.get('name')?.hasError('required')">
+                        El nombre <strong>es requerido!</strong>
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <input type="text" formControlName="email" class="form-control" placeholder="Ingrese su e-mail">
+                    <span class="text-danger" *ngIf="addCommentForm.get('email')?.touched && addCommentForm.get('email')?.hasError('required')">
+                        Su dirección  de correo electrónico <strong>es requerida!</strong>
+                    </span>
+                    <span class="text-danger" *ngIf="addCommentForm.get('email')?.touched && addCommentForm.get('email')?.hasError('email')">
+                        El e-mail ingresado <strong>es inválido!</strong>
+                    </span>
+                </div>
+                <div class="mb-3">
+                    <textarea rows="5" cols="50" formControlName="comment" placeholder="Escriba su mensaje (Máximo 500 caracteres)"></textarea>
+                    <br>
+                    <span class="text-danger" *ngIf="addCommentForm.get('comment')?.touched && addCommentForm.get('comment')?.hasError('required')">
+                        Debe escribir un comentario.
+                    </span>                    
+                    <span class="text-danger" *ngIf="addCommentForm.get('comment')?.hasError('maxlength')">
+                        Su comentario <strong>supera los 500 caracteres!</strong>
+                    </span>                    
+                </div>
+                <div class="d-grid col-12 mx-auto">
+                    <button type="submit" [disabled]="addCommentForm.invalid" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
