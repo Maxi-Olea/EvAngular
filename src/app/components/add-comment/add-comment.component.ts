@@ -32,7 +32,6 @@ export class AddCommentComponent implements OnInit {
    getMaxId() {
      return new Promise((res,rej) => {
       let maxId = 0
-      console.log('Entre por aca pq no hay variable local')
       this.postService.getComments().subscribe (data => {
         maxId = Math.max(...data.map(x => x.id));  
         res(maxId)                    
@@ -41,10 +40,8 @@ export class AddCommentComponent implements OnInit {
    }
 
   async addComment() {
-      if(!localStorage.getItem('localcomments')) {
-        console.log('no existe vble localStorage, la creamos')
+      if(!localStorage.getItem('localcomments')) {        
         let maxId = <number> await this.getMaxId()
-        console.log('maxId: ', maxId)
         let comment = {
           'postId': this.postId,
           'id': maxId + 1,
@@ -53,17 +50,12 @@ export class AddCommentComponent implements OnInit {
           'body': this.addCommentForm.get('comment').value,
           'local': 'Si'
         }
-        console.log(comment);
         localStorage.setItem('localcomments', `[${ JSON.stringify(comment) }]`);
       } 
       else {
-        console.log('la vble local ya existe')
-        this.localComments = [];
-        console.log('localComments: ', this.localComments) 
+        this.localComments = []; 
         this.localComments = JSON.parse(localStorage.getItem('localcomments'))
-        console.log('comentarios antes de agregar el nuevo', this.localComments)
         let maxId = Math.max(...this.localComments.map(x => x.id))
-        console.log('maxid local: ', maxId)
         let comment = {
           'postId': this.postId,
           'id': maxId + 1,
@@ -72,12 +64,9 @@ export class AddCommentComponent implements OnInit {
           'body': this.addCommentForm.get('comment').value,
           'local': 'Si'
         }
-        console.log(comment)
         this.localComments.push(comment)
-        console.log('locomments con el ultimo mensaje agregado', this.localComments)
         localStorage.setItem('localcomments', JSON.stringify(this.localComments))
         this.localComments = [];
-        console.log(this.localComments)
       }
       this.addCommentForm.reset(); 
       this.notifyNewComment();

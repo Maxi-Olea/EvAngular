@@ -48,11 +48,9 @@ export class CommentsComponent implements OnInit, OnDestroy {
       //from localStorage
       if(localStorage.getItem('localcomments')) {
         this.localComments = JSON.parse(localStorage.getItem('localcomments'))
-        console.log('local comments: ', this.localComments)
         this.localCommentsById = this.localComments.filter((element) => {
           return element.postId == this.postId;
-        })
-        console.log('commentsByPostId: ', this.localCommentsById)      
+        })     
       }
       //comments api + local
       if(this.localCommentsById){
@@ -70,12 +68,9 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   deleteCommentById(id) {
-    console.log('id recibido: ', id)
-    console.log('Comentarios locales antes del delete: ', this.localComments)
     let comments = this.localComments.filter((comment) => {
       return (comment.id !== id)
     })
-    console.log('Comentarios despues del delete: ', comments)
     this.localComments = comments
     localStorage.setItem('localcomments', JSON.stringify(this.localComments))
     this.ngOnInit()
