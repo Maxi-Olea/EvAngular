@@ -16,6 +16,9 @@
                 <h6><span class="fw-bold">Nombre:</span> {{ comment.name }}</h6>
                 <p><span class="fw-bold">Comentario:</span> {{ comment.body }}</p>
               </td>
+              <td class="icon">
+                <i *ngIf="comment.local" (click)="deleteCommentById(comment.id)" class="fas fa-trash"></i>
+              </td>
             </tr>
           </tbody>
         </table>

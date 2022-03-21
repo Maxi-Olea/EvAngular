@@ -16,6 +16,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   loading = false;
   serverComments: any[];
   localComments: any[];
+  localCommentsById: any[];
   comments:any[];
   errorMsg;
 
@@ -46,15 +47,19 @@ export class CommentsComponent implements OnInit, OnDestroy {
       this.serverComments = data
       //from localStorage
       if(localStorage.getItem('localcomments')) {
-        let localCom = JSON.parse(localStorage.getItem('localcomments'))
-        console.log('local comments: ', localCom)
-        this.localComments = localCom.filter((element) => {
+        this.localComments = JSON.parse(localStorage.getItem('localcomments'))
+        console.log('local comments: ', this.localComments)
+        this.localCommentsById = this.localComments.filter((element) => {
           return element.postId == this.postId;
         })
-        console.log('commentsByPostId: ', this.localComments)      
+        console.log('commentsByPostId: ', this.localCommentsById)      
       }
       //comments api + local
-      this.comments = this.serverComments.concat(this.localComments)
+      if(this.localCommentsById){
+        this.comments = this.serverComments.concat(this.localCommentsById)
+      } else {
+        this.comments = this.serverComments
+      }
       this.loading = false
     },
     error => {
@@ -62,6 +67,18 @@ export class CommentsComponent implements OnInit, OnDestroy {
       console.log(this.errorMsg)
       this.router.navigate(['/404'])
     })
+  }
+
+  deleteCommentById(id) {
+    console.log('id recibido: ', id)
+    console.log('Comentarios locales antes del delete: ', this.localComments)
+    let comments = this.localComments.filter((comment) => {
+      return (comment.id !== id)
+    })
+    console.log('Comentarios despues del delete: ', comments)
+    this.localComments = comments
+    localStorage.setItem('localcomments', JSON.stringify(this.localComments))
+    this.ngOnInit()
   }
 
   emitTime() {

@@ -50,10 +50,11 @@ export class AddCommentComponent implements OnInit {
           'id': maxId + 1,
           'name': this.addCommentForm.get('name').value,
           'email': this.addCommentForm.get('email').value,
-          'body': this.addCommentForm.get('comment').value
+          'body': this.addCommentForm.get('comment').value,
+          'local': 'Si'
         }
         console.log(comment);
-        localStorage.setItem('localcomments', JSON.stringify(comment))
+        localStorage.setItem('localcomments', `[${ JSON.stringify(comment) }]`);
       } 
       else {
         console.log('la vble local ya existe')
@@ -68,7 +69,8 @@ export class AddCommentComponent implements OnInit {
           'id': maxId + 1,
           'name': this.addCommentForm.get('name').value,
           'email': this.addCommentForm.get('email').value,
-          'body': this.addCommentForm.get('comment').value
+          'body': this.addCommentForm.get('comment').value,
+          'local': 'Si'
         }
         console.log(comment)
         this.localComments.push(comment)
