@@ -21,7 +21,7 @@
                     </span>
                 </div>
                 <div class="mb-3">
-                    <textarea rows="5" cols="50" formControlName="comment" placeholder="Escriba su mensaje (Máximo 500 caracteres)"></textarea>
+                    <textarea class="comment" rows="5" cols="100" formControlName="comment" placeholder="Escriba su mensaje (Máximo 500 caracteres)"></textarea>
                     <br>
                     <span class="text-danger" *ngIf="addCommentForm.get('comment')?.touched && addCommentForm.get('comment')?.hasError('required')">
                         Debe escribir un comentario.

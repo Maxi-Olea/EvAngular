@@ -1,15 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { PostsService } from 'src/app/services/posts.service';
+
+
+
 
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
   styleUrls: ['./comments.component.css']
 })
-export class CommentsComponent implements OnInit {
+export class CommentsComponent implements OnInit, OnDestroy {
 
   loading = false;
+  serverComments: any[];
+  localComments: any[];
   comments:any[];
   errorMsg;
 
@@ -19,6 +25,10 @@ export class CommentsComponent implements OnInit {
 
   dateTime: number = Date.now();
 
+  newCommentSubscriber: Subscription = this.postService.newCommentNotifier.subscribe(() => {
+    this.ngOnInit();
+  })
+
   constructor(
     private postService : PostsService,
     private router : Router
@@ -26,12 +36,25 @@ export class CommentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true
-    this.getCommentsByPostId()
+    this.getCommentsByPostId()    
   }
 
+
   getCommentsByPostId() {
+    //from the api
     this.postService.getCommentsByPostId(this.postId).subscribe(data => {
-      this.comments = data
+      this.serverComments = data
+      //from localStorage
+      if(localStorage.getItem('localcomments')) {
+        let localCom = JSON.parse(localStorage.getItem('localcomments'))
+        console.log('local comments: ', localCom)
+        this.localComments = localCom.filter((element) => {
+          return element.postId == this.postId;
+        })
+        console.log('commentsByPostId: ', this.localComments)      
+      }
+      //comments api + local
+      this.comments = this.serverComments.concat(this.localComments)
       this.loading = false
     },
     error => {
@@ -43,6 +66,10 @@ export class CommentsComponent implements OnInit {
 
   emitTime() {
     this.sendTime.emit(this.dateTime)
+  }
+
+  ngOnDestroy(): void {
+    this.newCommentSubscriber.unsubscribe();
   }
 
 }

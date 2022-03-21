@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Subject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 
 @Injectable({
@@ -12,6 +11,8 @@ export class PostsService {
 
   urlPosts = 'https://jsonplaceholder.typicode.com/posts';
   urlComments = 'https://jsonplaceholder.typicode.com/comments';
+
+  newCommentNotifier: Subject<null> = new Subject<null>();
 
   errorMsg
 
@@ -32,6 +33,15 @@ export class PostsService {
   getCommentsByPostId (postId): Observable<any> {
     return this.httpClient.get(`${this.urlComments}?postId=${postId}`)
     .pipe(catchError(error => this.handleError(error)))
+  }
+
+  getComments(): Observable<any> {
+    return this.httpClient.get(this.urlComments)
+    .pipe(catchError(error => this.handleError(error)))
+  }
+
+  notifyNewComment() {
+    this.newCommentNotifier.next();
   }
 
   handleError(error) {
