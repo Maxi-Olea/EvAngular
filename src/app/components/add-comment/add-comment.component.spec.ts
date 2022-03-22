@@ -4,18 +4,14 @@ import { By } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddCommentComponent } from "./add-comment.component";
 import { PostsService } from 'src/app/services/posts.service';
-import { of } from 'rxjs';
+import { PostServiceStub } from 'src/app/services/post.service.mock';
 
 describe("AddCommentComponent", () => {
-  // let component: AddCommentComponent;
-  // let fixture: ComponentFixture<AddCommentComponent>;
-  //let myService: MyService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AddCommentComponent],
-      //schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      //providers: [{ provide: MyService, useValue: {} }],
+      providers: [{ provide: PostsService, useClass: PostServiceStub }],
       imports: [
         ReactiveFormsModule,
         FormsModule,
@@ -35,14 +31,12 @@ describe("AddCommentComponent", () => {
     var store = {};
 
     spyOn(localStorage, 'getItem').and.callFake((key:string):string => {
-      console.log('vine al local storage mockeado')
      return store[key] || null;
     });
     spyOn(localStorage, 'removeItem').and.callFake((key:string):void =>  {
       delete store[key];
     });
     spyOn(localStorage, 'setItem').and.callFake((key:string, value:string):string =>  {
-      console.log('deberia venir aca para guardar')
       return store[key] = <string>value;
     });
     spyOn(localStorage, 'clear').and.callFake(() =>  {
@@ -50,13 +44,6 @@ describe("AddCommentComponent", () => {
     });
   });
 
-  // beforeEach(() => {
-  //   fixture = TestBed.createComponent(AddCommentComponent);
-  //   component = fixture.componentInstance;
-  //   fixture.detectChanges();
-
-  //   myService = TestBed.inject(MyService);
-  // });
 
   describe('Tests del Componente AddCommentComponent', () => {
     it('Debe existir AddCoomentComponent', () => {
@@ -139,17 +126,14 @@ describe("AddCommentComponent", () => {
       spyOn(app, 'addComment')
       const btnElement = fixture.debugElement.query(By.css('button.btn'))
       btnElement.nativeElement.click()
-      const testData = true
       expect(app.addComment).toHaveBeenCalledTimes(0)
   });
 
-  it(`Debe guardar el comentario`, () => {
+  it(`Debe guardar el 1er comentario (rama if)`, () => {
     const fixture = TestBed.createComponent(AddCommentComponent);
     const app = fixture.componentInstance;
     fixture.detectChanges()
  
- //   spyOn(app, 'getMaxId').and.returnValue(Promise.resolve(500)) // Devuelve el maxId=500
-
     let name = app.addCommentForm.controls['name']
     let email = app.addCommentForm.controls['email']
     let comment = app.addCommentForm.controls['comment']
@@ -161,33 +145,35 @@ describe("AddCommentComponent", () => {
     expect(localStorage.getItem('localcomments')).toBeDefined()
   });
 
-  // it('Debe retornar el maxId', (done: DoneFn) => {
-  //   const fixture = TestBed.createComponent(AddCommentComponent);
-  //   const app = fixture.componentInstance;
-  //   fixture.detectChanges()
+  it(`Debe guardar el 2do comentario (rama else)`, () => {
+    const fixture = TestBed.createComponent(AddCommentComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges()
 
-  //   const comments = {
-  //     "postId": 2,
-  //     "id": 6,
-  //     "name": "et fugit eligendi deleniti quidem qui sint nihil autem",
-  //     "email": "Presley.Mueller@myrl.com",
-  //     "body": "doloribus at sed quis culpa deserunt consectetur qui praesentium\naccusamus fugiat dicta"
-  //   };
+    localStorage.setItem('localcomments', '[{"postId":"2","id":505,"name":"maxi","email":"mail@mail.com","body":"mensaje 1","local":"Si"}]')
+ 
+    let name = app.addCommentForm.controls['name']
+    let email = app.addCommentForm.controls['email']
+    let comment = app.addCommentForm.controls['comment']
+    name.setValue('Maxi')
+    email.setValue('mail123@gmail.com')
+    comment.setValue('Mensaje 2')
 
-  //   const okResponse = new Response(JSON.stringify(comments), {
-  //     status: 200,
-  //     statusText: 'OK'
-  //   })
+    let expectedResult = '[{"postId":"2","id":505,"name":"maxi","email":"mail@mail.com","body":"mensaje 1","local":"Si"},{"id":506,"name":"Maxi","email":"mail123@gmail.com","body":"Mensaje 2","local":"Si"}]'
 
-  //   // spyOn(service, 'getComments').and.callFake(() => {
-  //   //   return(Promise.resolve(okResponse))
-  //   // })
+    app.addComment();
+    expect(localStorage.getItem('localcomments')).toEqual(expectedResult)
+  });
 
-  //   app.getMaxId().then((res) => {
-  //     expect(res).toEqual(6)
-  //     done()
-  //   })
-  // })
+  it('Debe retornar el maxId', (done: DoneFn) => {
+    const fixture = TestBed.createComponent(AddCommentComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges()
+    app.getMaxId().then((res) => {
+      expect(res).toEqual(506) // dato que vuelve del servicio mockeado
+      done()
+    })
+  })
 
 
   });
