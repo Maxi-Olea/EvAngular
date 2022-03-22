@@ -10,7 +10,6 @@ import { PostsService } from 'src/app/services/posts.service';
 export class AddCommentComponent implements OnInit {
 
   localComments: any[];
-
   addCommentForm: FormGroup;
 
   @Input() postId: number;
@@ -30,7 +29,7 @@ export class AddCommentComponent implements OnInit {
 
 
    getMaxId() {
-     return new Promise((res,rej) => {
+     return new Promise((res) => {
       let maxId = 0
       this.postService.getComments().subscribe (data => {
         maxId = Math.max(...data.map(x => x.id));  
@@ -41,7 +40,7 @@ export class AddCommentComponent implements OnInit {
 
   async addComment() {
       if(!localStorage.getItem('localcomments')) {        
-        let maxId = <number> await this.getMaxId()
+        let maxId = <number> await this.getMaxId()        
         let comment = {
           'postId': this.postId,
           'id': maxId + 1,
